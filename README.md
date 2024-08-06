@@ -1,6 +1,9 @@
 <div align="center">
   <h1>Midtrans Integration for FOSSBilling</h1>
-  <img src="https://img.shields.io/badge/license-Apache%202.0-green.svg" alt="License">
+  <img src="https://img.shields.io/github/v/release/FZFR/Midtrans-FOSSBilling?include_prereleases&sort=semver&display_name=release&style=flat">
+  <img src="https://img.shields.io/github/downloads/FZFR/Midtrans-FOSSBilling/total?style=flat">
+  <img src="https://img.shields.io/github/repo-size/FZFR/Midtrans-FOSSBilling">
+  <img alt="GitHub" src="https://img.shields.io/github/license/FZFR/Midtrans-FOSSBilling?style=flat">  
 </div>
 
 ## Overview
