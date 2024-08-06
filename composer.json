@@ -1,0 +1,30 @@
+{
+    "name": "fossbilling/midtrans-adapter",
+    "type": "library",
+    "description": "Midtrans payment adapter for FOSSBilling",
+    "keywords": ["fossbilling", "midtrans", "payment", "gateway"],
+    "homepage": "https://github.com/FZFR/Midtrans-FOSSBilling",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "FZFR",
+            "email": "me@fazza.fr"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ext-json": "*",
+        "ext-curl": "*",
+        "monolog/monolog": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "FOSSBilling\\Payment\\Adapter\\": "src/"
+        }
+    },
+    "extra": {
+        "fossbilling": {
+            "plugin": "Payment_Adapter_Midtrans"
+        }
+    }
+}
