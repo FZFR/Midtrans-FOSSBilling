@@ -62,8 +62,8 @@ class Payment_Adapter_Midtrans implements \FOSSBilling\InjectionAwareInterface
             'description' => 'Pay with Midtrans (Credit Card, Bank Transfer, E-Wallet, etc)',
             'logo' => [
                 'logo' => 'Midtrans.png',
-                'height' => '60px',
-                'width' => '125px',
+                'height' => '30px',
+                'width' => '140px',
             ],
             'form' => [
                 'merchant_id' => ['text', ['label' => 'Merchant ID']],
