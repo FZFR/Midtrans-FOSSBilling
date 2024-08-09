@@ -23,6 +23,7 @@ This adapter integrates [Midtrans](https://midtrans.com) payment gateway into yo
   - [2). Manual installation](#2-manual-installation)
 - [Configuration](#configuration)
   - [Webhook Configuration](#webhook-configuration)
+  - [Snap Token Storage Configuration](#snap-token-storage-configuration)
 - [Usage](#usage)
 - [Troubleshooting](#troubleshooting)
 - [Contributing](#contributing)
@@ -49,11 +50,14 @@ This adapter integrates [Midtrans](https://midtrans.com) payment gateway into yo
 
 - **Sandbox Mode**: Allows testing in a sandbox environment before going live.
 
+- **Configurable Snap Token Storage**: 
+  - Ability to set custom expiration time for stored Snap tokens.
+  - Automatic cleanup of expired tokens to maintain system efficiency.
+
 ## Installation
 ### 1). Extension directory
 > Not yet implemented
->
->
+
 ### 2). Manual installation
 1. Download the latest release from the GitHub repository.
 2. Create a new folder named **Midtrans** in the **/library/Payment/Adapter** directory of your FOSSBilling installation.
@@ -72,7 +76,8 @@ This adapter integrates [Midtrans](https://midtrans.com) payment gateway into yo
    - Sandbox mode (for testing)
    - Payment mode (popup or embedded)
    - Default country code
-4. Save your configuration.
+4. Set the Snap Token Expiration time (in seconds) to control how long Snap tokens are stored.
+5. Save your configuration.
 
 ### Webhook Configuration
 
@@ -83,6 +88,20 @@ To set up webhooks for real-time payment notifications:
 3. Set the Payment Notification URL to:
    `https://your-fossbilling-domain.com/ipn.php?gateway_id=payment_gateway_id`
    (Replace `your-fossbilling-domain.com` with your actual domain and `payment_gateway_id` with the ID assigned by FOSSBilling)
+
+### Snap Token Storage Configuration
+
+The Snap Token Storage feature allows you to control how long Snap tokens are stored in the system:
+
+- Navigate to the Midtrans configuration in your FOSSBilling admin panel.
+- Find the "Snap Token Expiration" field.
+- Enter the desired expiration time in seconds. For example:
+  - 3600 for 1 hour
+  - 86400 for 24 hours (default)
+  - 604800 for 1 week
+- The system will automatically delete expired tokens based on this setting.
+
+This feature helps in optimizing system resources while maintaining flexibility for different use cases.
 
 ## Usage
 
@@ -100,10 +119,11 @@ Once installed and configured:
 - **TLS Support**: Verify that your server supports TLS v1.2 for Midtrans notifications.
 - **Webhook Issues**: If payment status updates are not working, check your webhook configuration in both Midtrans and FOSSBilling.
 - **Payment Method Availability**: Some payment methods may not be available in certain regions or for certain transaction amounts. Refer to Midtrans documentation for details.
+- **Token Expiration Issues**: If you're experiencing issues related to Snap tokens, check the "Snap Token Expiration" setting in your Midtrans configuration. Adjust as needed based on your usage patterns.
 
 ## Contributing
 
-I welcome contributions to improve this integration. To contribute:
+We welcome contributions to improve this integration. To contribute:
 
 1. Fork the repository.
 2. Create a new branch for your feature or bugfix: `git checkout -b feature-name`.

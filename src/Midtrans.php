@@ -88,6 +88,11 @@ class Payment_Adapter_Midtrans implements \FOSSBilling\InjectionAwareInterface
                     'description' => 'e.g., IDN for Indonesia, USA for United States',
                     'value' => 'IDN',
                 ]],
+                'snap_token_expiration' => ['text', [
+                    'label' => 'Snap Token Expiration (in seconds)',
+                    'description' => 'How long to store Snap tokens (default: 86400 seconds / 24 hours)',
+                    'value' => '86400',
+                ]],
             ],
         ];
     }
@@ -614,11 +619,35 @@ class Payment_Adapter_Midtrans implements \FOSSBilling\InjectionAwareInterface
         $filename = __DIR__ . '/temp_storage/midtrans_' . $invoiceId . '.json';
         if (file_exists($filename)) {
             $data = json_decode(file_get_contents($filename), true);
-            if (time() - $data['created_at'] < 3600) {
+            $expirationTime = isset($this->config['snap_token_expiration']) 
+                ? (int)$this->config['snap_token_expiration'] 
+                : 24 * 3600; // default to 24 hours if not set
+            
+            if (time() - $data['created_at'] < $expirationTime) {
                 return $data;
+            } else {                
+                unlink($filename);
+                $this->logger->info('Expired Snap token file deleted', ['invoiceId' => $invoiceId, 'filename' => $filename]);
             }
-            unlink($filename);
         }
         return null;
     }
+    
+    public function cleanupExpiredTokens()
+    {
+        $storageDir = __DIR__ . '/temp_storage';
+        $files = glob($storageDir . '/midtrans_*.json');
+        $expirationTime = isset($this->config['snap_token_expiration']) 
+            ? (int)$this->config['snap_token_expiration'] 
+            : 24 * 3600; // default to 24 hours if not set
+    
+        foreach ($files as $file) {
+            $data = json_decode(file_get_contents($file), true);
+            if (time() - $data['created_at'] >= $expirationTime) {
+                unlink($file);
+                $this->logger->info('Expired Snap token file deleted during cleanup', ['filename' => $file]);
+            }
+        }
+    }
+
 }
